@@ -1,467 +1,327 @@
 // ═══════════════════════════════════════════════════════════════
-//  SCRIPT.JS — XYLOS.SITE
-//  Handles all effects, animations, and config loading
+//  SCRIPT.JS — XYLOS.SITE V2
+//  Single page, no scroll, terminal aesthetic
 // ═══════════════════════════════════════════════════════════════
 
 (function() {
     'use strict';
 
-    // ─── DOM Elements ───
-    const loader = document.getElementById('loader');
-    const loaderText = document.getElementById('loaderText');
-    const loaderBar = document.getElementById('loaderBar');
-    const loaderPercent = document.getElementById('loaderPercent');
-    const loaderStatus = document.getElementById('loaderStatus');
-    const loaderParticles = document.getElementById('loaderParticles');
-    const bgVideo = document.getElementById('bgVideo');
-    const bgMusic = document.getElementById('bgMusic');
-    const musicToggle = document.getElementById('musicToggle');
-    const musicIcon = document.getElementById('musicIcon');
-    const musicVisualizer = document.getElementById('musicVisualizer');
-    const scanlines = document.getElementById('scanlines');
-    const navbar = document.getElementById('navbar');
-    const navHamburger = document.getElementById('navHamburger');
-    const navLinks = document.querySelector('.nav-links');
-    const pfp = document.getElementById('pfp');
-    const heroName = document.getElementById('heroName');
-    const heroTagline = document.getElementById('heroTagline');
-    const aboutText = document.getElementById('aboutText');
-    const aboutCursor = document.getElementById('aboutCursor');
-    const footerName = document.getElementById('footerName');
-    const particlesCanvas = document.getElementById('particlesCanvas');
-    const floatingOrbs = document.getElementById('floatingOrbs');
+    const $ = id => document.getElementById(id);
 
-    // ─── Apply Config ───
-    function applyConfig() {
-        if (typeof CONFIG === 'undefined') {
-            console.warn('config.js not loaded!');
-            return;
-        }
+    // ─── Elements ───
+    const boot = $('boot');
+    const bootOutput = $('bootOutput');
+    const bootBar = $('bootBar');
+    const bootPct = $('bootPct');
+    const mainWrap = $('mainWrap');
+    const bgVideo = $('bgVideo');
+    const bgMusic = $('bgMusic');
+    const audioBtn = $('audioBtn');
+    const audioWaves = $('audioWaves');
+    const pfp = $('pfp');
+    const nameMain = document.querySelector('.name-main');
+    const nameShadow = document.querySelector('.name-shadow');
+    const nameTag = document.querySelector('.name-tag');
+    const tagline = $('tagline');
+    const termType = $('termType');
+    const termCaret = $('termCaret');
+    const discordBtn = $('discordBtn');
+    const robloxBtn = $('robloxBtn');
+    const discordVal = $('discordVal');
+    const robloxVal = $('robloxVal');
+    const clock = $('clock');
+    const canvas = $('particleCanvas');
+    const ctx = canvas.getContext('2d');
 
-        // CSS Variables
-        const root = document.documentElement;
-        root.style.setProperty('--primary', CONFIG.colors.primary);
-        root.style.setProperty('--primary-glow', CONFIG.colors.primaryGlow);
-        root.style.setProperty('--secondary', CONFIG.colors.secondary);
-        root.style.setProperty('--accent', CONFIG.colors.accent);
-        root.style.setProperty('--text', CONFIG.colors.text);
-        root.style.setProperty('--text-muted', CONFIG.colors.textMuted);
-        root.style.setProperty('--bg-dark', CONFIG.colors.bgDark);
-        root.style.setProperty('--card-bg', CONFIG.colors.cardBg);
-        root.style.setProperty('--card-border', CONFIG.colors.cardBorder);
-        root.style.setProperty('--nav-bg', CONFIG.colors.navBg);
+    // ─── Config ───
+    function loadConfig() {
+        if (typeof CONFIG === 'undefined') return;
 
-        // Profile
+        document.documentElement.style.setProperty('--violet', CONFIG.colors.violet);
+        document.documentElement.style.setProperty('--magenta', CONFIG.colors.magenta);
+        document.documentElement.style.setProperty('--cyan', CONFIG.colors.cyan);
+        document.documentElement.style.setProperty('--rose', CONFIG.colors.rose);
+        document.documentElement.style.setProperty('--amber', CONFIG.colors.amber);
+        document.documentElement.style.setProperty('--text', CONFIG.colors.text);
+        document.documentElement.style.setProperty('--muted', CONFIG.colors.muted);
+        document.documentElement.style.setProperty('--dark', CONFIG.colors.dark);
+        document.documentElement.style.setProperty('--panel', CONFIG.colors.panel);
+
         if (CONFIG.pfp) pfp.src = CONFIG.pfp;
-        document.title = CONFIG.name;
-        heroName.querySelector('.glitch').textContent = CONFIG.name;
-        heroName.querySelector('.glitch').setAttribute('data-text', CONFIG.name);
-        heroTagline.textContent = CONFIG.tagline;
-        footerName.textContent = CONFIG.name;
-
-        // Background Video
         if (CONFIG.bgVideo) {
             bgVideo.querySelector('source').src = CONFIG.bgVideo;
             bgVideo.load();
         }
-        if (CONFIG.bgVideoPoster) {
-            bgVideo.poster = CONFIG.bgVideoPoster;
-        }
-
-        // Music
         if (CONFIG.bgMusic) {
             bgMusic.src = CONFIG.bgMusic;
-            bgMusic.volume = CONFIG.musicVolume || 0.3;
+            bgMusic.volume = CONFIG.musicVolume || 0.25;
         }
 
-        // Loading Screen
-        if (CONFIG.loadingText) {
-            loaderText.textContent = CONFIG.loadingText;
-            loaderText.setAttribute('data-text', CONFIG.loadingText);
-        }
-        if (CONFIG.loadingSubtext) {
-            loaderStatus.textContent = CONFIG.loadingSubtext;
-        }
+        document.title = CONFIG.name;
+        nameMain.textContent = CONFIG.name;
+        nameShadow.textContent = CONFIG.name;
+        nameTag.textContent = CONFIG.name;
+        tagline.textContent = CONFIG.tagline;
 
-        // Socials
         if (CONFIG.discord) {
-            document.getElementById('discordName').textContent = CONFIG.discord;
-            const discordCard = document.getElementById('discordCard');
-            if (CONFIG.discordId) {
-                discordCard.href = `https://discord.com/users/${CONFIG.discordId}`;
-            } else {
-                discordCard.href = `https://discord.com/users/@me`;
-            }
+            discordVal.textContent = CONFIG.discord;
+            discordBtn.href = CONFIG.discordId 
+                ? `https://discord.com/users/${CONFIG.discordId}`
+                : '#';
         }
-
         if (CONFIG.roblox) {
-            document.getElementById('robloxName').textContent = CONFIG.roblox;
-            const robloxCard = document.getElementById('robloxCard');
-            if (CONFIG.robloxId) {
-                robloxCard.href = `https://www.roblox.com/users/${CONFIG.robloxId}/profile`;
-            } else {
-                robloxCard.href = `https://www.roblox.com/users/profile?username=${CONFIG.roblox}`;
-            }
-        }
-
-        // Extra socials
-        const socialMap = {
-            github: { card: 'githubCard', name: 'githubName', url: u => `https://github.com/${u}` },
-            youtube: { card: 'youtubeCard', name: 'youtubeName', url: u => `https://youtube.com/@${u}` },
-            twitter: { card: 'twitterCard', name: 'twitterName', url: u => `https://twitter.com/${u}` },
-            twitch: { card: 'twitchCard', name: 'twitchName', url: u => `https://twitch.tv/${u}` },
-        };
-
-        for (const [key, info] of Object.entries(socialMap)) {
-            const val = CONFIG.socials?.[key];
-            if (val) {
-                const card = document.getElementById(info.card);
-                const nameEl = document.getElementById(info.name);
-                if (card) {
-                    card.classList.remove('hidden');
-                    card.href = info.url(val);
-                }
-                if (nameEl) nameEl.textContent = val;
-            }
-        }
-
-        // Effects
-        if (CONFIG.effects?.scanlines) {
-            scanlines.classList.add('active');
+            robloxVal.textContent = CONFIG.roblox;
+            robloxBtn.href = CONFIG.robloxId
+                ? `https://www.roblox.com/users/${CONFIG.robloxId}/profile`
+                : `https://www.roblox.com/users/profile?username=${CONFIG.roblox}`;
         }
     }
 
-    // ─── Loading Screen ───
-    function initLoader() {
-        // Create loader particles
-        for (let i = 0; i < 20; i++) {
-            const p = document.createElement('div');
-            p.className = 'loader-particle';
-            p.style.left = Math.random() * 100 + '%';
-            p.style.animationDelay = Math.random() * 3 + 's';
-            p.style.animationDuration = (2 + Math.random() * 3) + 's';
-            loaderParticles.appendChild(p);
-        }
+    // ─── Boot Sequence ───
+    const bootLines = [
+        '[ OK ] Kernel loaded',
+        '[ OK ] Mounting filesystems',
+        '[ OK ] Starting network services',
+        '[ OK ] Loading user profile: xylos',
+        '[ OK ] Initializing graphics engine',
+        '[ OK ] Particle system ready',
+        '[ OK ] Audio subsystem online',
+        '[ OK ] All systems operational',
+    ];
 
+    function runBoot() {
+        let i = 0;
         let progress = 0;
-        const steps = [
-            { pct: 15, text: 'Loading assets...', delay: 300 },
-            { pct: 35, text: 'Initializing effects...', delay: 400 },
-            { pct: 55, text: 'Loading profile data...', delay: 300 },
-            { pct: 75, text: 'Preparing particles...', delay: 400 },
-            { pct: 90, text: 'Finalizing...', delay: 500 },
-            { pct: 100, text: 'Welcome!', delay: 600 },
-        ];
 
-        let stepIndex = 0;
-        function nextStep() {
-            if (stepIndex >= steps.length) {
-                setTimeout(() => {
-                    loader.classList.add('hidden');
-                    initTypingEffect();
-                    if (CONFIG.effects?.particles) initParticles();
-                    if (CONFIG.effects?.floatingElements) initFloatingOrbs();
-                    if (CONFIG.musicAutoplay && CONFIG.bgMusic) {
-                        toggleMusic(true);
-                    }
-                }, 400);
-                return;
+        function addLine() {
+            if (i < bootLines.length) {
+                const div = document.createElement('div');
+                div.textContent = bootLines[i];
+                div.style.opacity = '0';
+                div.style.transform = 'translateX(-10px)';
+                div.style.transition = 'all 0.3s ease';
+                bootOutput.appendChild(div);
+
+                requestAnimationFrame(() => {
+                    div.style.opacity = '1';
+                    div.style.transform = 'translateX(0)';
+                });
+
+                progress = Math.round(((i + 1) / bootLines.length) * 100);
+                bootBar.style.width = progress + '%';
+                bootPct.textContent = progress + '%';
+
+                i++;
+                setTimeout(addLine, 180 + Math.random() * 120);
+            } else {
+                setTimeout(finishBoot, 400);
             }
-
-            const step = steps[stepIndex];
-            progress = step.pct;
-            loaderBar.style.width = progress + '%';
-            loaderPercent.textContent = progress + '%';
-            loaderStatus.textContent = step.text;
-
-            stepIndex++;
-            setTimeout(nextStep, step.delay);
         }
 
-        setTimeout(nextStep, 500);
+        setTimeout(addLine, 300);
     }
 
-    // ─── Typing Effect ───
-    function initTypingEffect() {
-        if (!CONFIG.effects?.typingEffect || !CONFIG.aboutMe) return;
+    function finishBoot() {
+        boot.classList.add('done');
+        mainWrap.classList.add('loaded');
+        setTimeout(() => {
+            initTyping();
+            initStats();
+        }, 600);
+    }
 
+    // ─── Terminal Typing ───
+    function initTyping() {
+        if (!CONFIG?.aboutMe) return;
         const text = CONFIG.aboutMe;
-        let index = 0;
-        aboutCursor.style.display = 'inline';
+        let idx = 0;
+        termCaret.style.display = 'inline';
 
         function type() {
-            if (index < text.length) {
-                aboutText.textContent += text.charAt(index);
-                index++;
-                setTimeout(type, 30 + Math.random() * 40);
+            if (idx < text.length) {
+                termType.textContent += text.charAt(idx);
+                idx++;
+                setTimeout(type, 25 + Math.random() * 35);
             } else {
-                setTimeout(() => {
-                    aboutCursor.style.display = 'none';
-                }, 2000);
+                setTimeout(() => { termCaret.style.display = 'none'; }, 1500);
             }
         }
-
         type();
     }
 
-    // ─── Particles ───
-    function initParticles() {
-        const ctx = particlesCanvas.getContext('2d');
-        let particles = [];
-        let mouseX = 0, mouseY = 0;
-        let animationId;
+    // ─── Stats Counter ───
+    function initStats() {
+        const targets = [12, 2847, 45231, 892];
+        const elements = [$('stat1'), $('stat2'), $('stat3'), $('stat4')];
+        const durations = [1500, 2000, 2500, 1800];
 
-        function resize() {
-            particlesCanvas.width = window.innerWidth;
-            particlesCanvas.height = window.innerHeight;
-        }
-        resize();
-        window.addEventListener('resize', resize);
+        elements.forEach((el, i) => {
+            const target = targets[i];
+            const duration = durations[i];
+            const start = Date.now();
 
-        class Particle {
-            constructor() {
-                this.reset();
+            function update() {
+                const elapsed = Date.now() - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.floor(eased * target).toLocaleString();
+
+                if (progress < 1) requestAnimationFrame(update);
             }
-            reset() {
-                this.x = Math.random() * particlesCanvas.width;
-                this.y = Math.random() * particlesCanvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = (Math.random() - 0.5) * 0.5;
-                this.opacity = Math.random() * 0.5 + 0.2;
-                this.color = Math.random() > 0.5 ? CONFIG.colors.primary : CONFIG.colors.accent;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
 
-                // Mouse interaction
-                const dx = mouseX - this.x;
-                const dy = mouseY - this.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 150) {
-                    this.x -= dx * 0.01;
-                    this.y -= dy * 0.01;
-                }
-
-                if (this.x < 0 || this.x > particlesCanvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > particlesCanvas.height) this.speedY *= -1;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.globalAlpha = this.opacity;
-                ctx.fill();
-                ctx.globalAlpha = 1;
-            }
-        }
-
-        for (let i = 0; i < 80; i++) {
-            particles.push(new Particle());
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-
-            // Draw connections
-            particles.forEach((p1, i) => {
-                particles.slice(i + 1).forEach(p2 => {
-                    const dx = p1.x - p2.x;
-                    const dy = p1.y - p2.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 120) {
-                        ctx.beginPath();
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = CONFIG.colors.primary;
-                        ctx.globalAlpha = (1 - dist / 120) * 0.15;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                        ctx.globalAlpha = 1;
-                    }
-                });
-            });
-
-            animationId = requestAnimationFrame(animate);
-        }
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
+            setTimeout(() => requestAnimationFrame(update), 400 + i * 150);
         });
-
-        animate();
     }
 
-    // ─── Floating Orbs ───
-    function initFloatingOrbs() {
-        const colors = [CONFIG.colors.primary, CONFIG.colors.accent, CONFIG.colors.secondary];
-        for (let i = 0; i < 5; i++) {
-            const orb = document.createElement('div');
-            orb.className = 'orb';
-            orb.style.width = (150 + Math.random() * 200) + 'px';
-            orb.style.height = orb.style.width;
-            orb.style.background = colors[i % colors.length];
-            orb.style.left = Math.random() * 100 + '%';
-            orb.style.top = Math.random() * 100 + '%';
-            orb.style.animationDelay = (Math.random() * 10) + 's';
-            orb.style.animationDuration = (15 + Math.random() * 15) + 's';
-            floatingOrbs.appendChild(orb);
-        }
+    // ─── Clock ───
+    function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        clock.textContent = `${h}:${m}:${s}`;
     }
+    setInterval(updateClock, 1000);
+    updateClock();
 
-    // ─── Music Toggle ───
+    // ─── Audio Toggle ───
     let musicPlaying = false;
-
-    function toggleMusic(forceState) {
-        if (typeof forceState !== 'undefined') {
-            musicPlaying = forceState;
-        } else {
-            musicPlaying = !musicPlaying;
-        }
+    audioBtn.addEventListener('click', () => {
+        if (!CONFIG?.bgMusic) return;
+        musicPlaying = !musicPlaying;
 
         if (musicPlaying) {
-            bgMusic.play().catch(() => {
-                // Autoplay blocked — user must click
-                musicPlaying = false;
-            });
-            musicIcon.textContent = '';
-            musicVisualizer.classList.add('active');
-            musicToggle.style.boxShadow = `0 0 30px ${CONFIG.colors.primary}`;
+            bgMusic.play().catch(() => { musicPlaying = false; });
+            audioBtn.classList.add('playing');
         } else {
             bgMusic.pause();
-            musicIcon.textContent = '🔇';
-            musicVisualizer.classList.remove('active');
-            musicToggle.style.boxShadow = '';
+            audioBtn.classList.remove('playing');
         }
+    });
+
+    // ─── Particles ───
+    let particles = [];
+    let mouseX = 0, mouseY = 0;
+    let w, h;
+
+    function resizeCanvas() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
     }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
-    musicToggle.addEventListener('click', () => toggleMusic());
-
-    // ─── Navbar Scroll ───
-    function handleScroll() {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+    class Particle {
+        constructor() { this.reset(); }
+        reset() {
+            this.x = Math.random() * w;
+            this.y = Math.random() * h;
+            this.vx = (Math.random() - 0.5) * 0.4;
+            this.vy = (Math.random() - 0.5) * 0.4;
+            this.size = Math.random() * 2 + 0.5;
+            this.alpha = Math.random() * 0.5 + 0.1;
+            this.hue = Math.random() > 0.5 ? 260 : 300;
         }
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
 
-        // Active nav link
-        const sections = document.querySelectorAll('section[id]');
-        const scrollPos = window.scrollY + 100;
-
-        sections.forEach(section => {
-            const top = section.offsetTop;
-            const height = section.offsetHeight;
-            const id = section.getAttribute('id');
-
-            if (scrollPos >= top && scrollPos < top + height) {
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === '#' + id) {
-                        link.classList.add('active');
-                    }
-                });
+            const dx = mouseX - this.x;
+            const dy = mouseY - this.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < 120) {
+                this.x -= dx * 0.008;
+                this.y -= dy * 0.008;
             }
-        });
+
+            if (this.x < 0 || this.x > w) this.vx *= -1;
+            if (this.y < 0 || this.y > h) this.vy *= -1;
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `hsla(${this.hue}, 70%, 60%, ${this.alpha})`;
+            ctx.fill();
+        }
     }
 
-    window.addEventListener('scroll', handleScroll);
+    for (let i = 0; i < 60; i++) particles.push(new Particle());
 
-    // ─── Mobile Nav ───
-    navHamburger.addEventListener('click', () => {
-        navHamburger.classList.toggle('active');
-        navLinks.classList.toggle('active');
-    });
+    function animateParticles() {
+        ctx.clearRect(0, 0, w, h);
 
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            navHamburger.classList.remove('active');
-            navLinks.classList.remove('active');
+        particles.forEach(p => {
+            p.update();
+            p.draw();
         });
+
+        // Connections
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < 100) {
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = `hsla(260, 50%, 50%, ${(1 - dist/100) * 0.08})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        requestAnimationFrame(animateParticles);
+    }
+
+    document.addEventListener('mousemove', e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
     });
 
-    // ─── Glitch Text Randomizer ───
-    function randomGlitch() {
-        if (!CONFIG.effects?.glitchText) return;
-        const glitch = document.querySelector('.glitch');
-        if (!glitch) return;
-
-        const original = CONFIG.name || 'XYLOS';
-        const chars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+    // ─── Name Glitch (random) ───
+    function nameGlitch() {
+        if (!CONFIG?.name) return;
+        const original = CONFIG.name;
+        const chars = '!<>-_\/[]{}—=+*^?#________';
 
         setInterval(() => {
             if (Math.random() > 0.7) {
                 const pos = Math.floor(Math.random() * original.length);
                 const char = chars[Math.floor(Math.random() * chars.length)];
-                glitch.textContent = original.substring(0, pos) + char + original.substring(pos + 1);
-                glitch.setAttribute('data-text', glitch.textContent);
+                const glitched = original.substring(0, pos) + char + original.substring(pos + 1);
+
+                nameMain.textContent = glitched;
+                nameShadow.textContent = glitched;
+                nameTag.textContent = glitched;
+
                 setTimeout(() => {
-                    glitch.textContent = original;
-                    glitch.setAttribute('data-text', original);
-                }, 100);
+                    nameMain.textContent = original;
+                    nameShadow.textContent = original;
+                    nameTag.textContent = original;
+                }, 80);
             }
-        }, 2000);
+        }, 3000);
     }
 
-    // ─── Card Hover Glow Follow ───
-    function initCardGlow() {
-        document.querySelectorAll('.social-card, .media-card, .about-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                card.style.setProperty('--mouse-x', x + 'px');
-                card.style.setProperty('--mouse-y', y + 'px');
-            });
-        });
+    // ─── PFP Scan Effect ───
+    function pfpScan() {
+        setInterval(() => {
+            pfp.style.filter = 'hue-rotate(90deg) saturate(2)';
+            setTimeout(() => {
+                pfp.style.filter = 'grayscale(0.3)';
+            }, 100);
+        }, 8000);
     }
 
-    // ─── Parallax on Scroll ───
-    function initParallax() {
-        window.addEventListener('scroll', () => {
-            const scrolled = window.scrollY;
-            const orbs = document.querySelectorAll('.orb');
-            orbs.forEach((orb, i) => {
-                const speed = 0.1 + (i * 0.05);
-                orb.style.transform = `translateY(${scrolled * speed}px)`;
-            });
-        });
-    }
-
-    // ─── Intersection Observer for Animations ───
-    function initScrollAnimations() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.social-card, .media-card, .section-header').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s ease';
-            observer.observe(el);
-        });
-    }
-
-    // ─── Initialize ───
+    // ─── Init ───
     document.addEventListener('DOMContentLoaded', () => {
-        applyConfig();
-        initLoader();
-        randomGlitch();
-        initCardGlow();
-        initParallax();
-        initScrollAnimations();
+        loadConfig();
+        runBoot();
+        animateParticles();
+        nameGlitch();
+        pfpScan();
     });
 
 })();
