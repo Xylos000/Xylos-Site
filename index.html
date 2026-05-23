@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XYLOS</title>
+    <title>About Xylos</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -15,7 +15,7 @@
             --text: #e2e8f0;
             --muted: #94a3b8;
             --dark: #0a0a0f;
-            --panel: rgba(15, 15, 25, 0.6);
+            --panel: rgba(15, 15, 25, 0.45);
         }
 
         * {
@@ -310,6 +310,27 @@
             display: none;
         }
 
+        /* Play button shown when autoplay is blocked */
+        #musicBtn {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 1001;
+            background: rgba(15,15,25,0.75);
+            color: var(--text);
+            border: 1px solid rgba(139,92,246,0.18);
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            display: none;
+        }
+
+        #musicBtn.show {
+            display: block;
+        }
+
         /* ========== AUDIO VISUALIZER BARS ========== */
         .visualizer {
             position: fixed;
@@ -467,6 +488,23 @@
             opacity: 1;
         }
     </style>
+<!-- Domain lock: stop rendering if not on xylos000.site -->
+<script>
+    (function(){
+        try {
+            const allowedHost = 'xylos000.site';
+            if (location.hostname !== allowedHost) {
+                document.open();
+                document.write('<!doctype html><html><head><meta charset="utf-8"><title></title><style>html,body{height:100%;margin:0;background:#fff}</style></head><body></body></html>');
+                document.close();
+            }
+        } catch (e) {
+            // If anything goes wrong, ensure page is blank/white
+            document.documentElement.style.background = '#fff';
+            document.body.innerHTML = '';
+        }
+    })();
+</script>
 <base target="_blank">
 </head>
 <body>
@@ -483,7 +521,7 @@
     <canvas id="bgCanvas"></canvas>
 
 <!-- Audio -->
-    <audio id="bgMusic" loop volume="0.25" autoplay>
+    <audio id="bgMusic" loop>
         <source src="https://xylos000.site/assets/music.mp3" type="audio/mpeg">
     </audio>
 
@@ -500,7 +538,7 @@
         <h1 class="name glitch-text" data-text="XYLOS">XYLOS</h1>
 
         <!-- Tagline -->
-        <p class="tagline">developer // creator // gamer</p>
+        <p class="tagline">developer // debugger // Chill!</p>
 
         <!-- Divider -->
         <div class="divider"></div>
@@ -508,18 +546,18 @@
         <!-- About Me -->
         <p class="about-label">about me</p>
         <p class="about-text">
-            i build things for the web. i break things for fun. i game to unwind. this is my digital footprint.
+            I develop things, I reverse develop things, I learn how anything works - Just for fun. Also love roblox and minecraft lmao. Lets chill fr.
         </p>
 
         <!-- Social Links -->
         <div class="social-links">
-            <a href="https://discord.com/users/xylos000" target="_blank" class="social-link" data-tooltip="Discord: xylos000">
+            <a href="https://discord.com/users/xylos000" target="_blank" class="social-link" data-tooltip="Discord: Xylos000">
                 <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-                xylos000
-            </a>
-            <a href="https://www.roblox.com/users/profile?username=Xylos000" target="_blank" class="social-link" data-tooltip="Roblox: Xylos000">
-                <svg viewBox="0 0 24 24"><path d="M4.8 0L0 19.2L19.2 24L24 4.8L4.8 0ZM15.3 15.3L8.7 13.5L10.5 6.9L17.1 8.7L15.3 15.3Z"/></svg>
                 Xylos000
+            </a>
+            <a href="https://www.roblox.com/users/profile?username=thepowerhand666" target="_blank" class="social-link" data-tooltip="Roblox: Thepowerhand666">
+                <svg viewBox="0 0 24 24"><path d="M4.8 0L0 19.2L19.2 24L24 4.8L4.8 0ZM15.3 15.3L8.7 13.5L10.5 6.9L17.1 8.7L15.3 15.3Z"/></svg>
+                Thepowerhand666
             </a>
         </div>
 
@@ -544,9 +582,6 @@
         <div class="bar" style="height: 10px;"></div>
         <div class="bar" style="height: 4px;"></div>
     </div>
-
-    <!-- Footer -->
-    <div class="footer-text">xylos</div>
 
     <!-- Tooltip -->
     <div class="tooltip" id="tooltip"></div>
@@ -573,7 +608,7 @@
                 text: "#e2e8f0",
                 muted: "#94a3b8",
                 dark: "#0a0a0f",
-                panel: "rgba(15, 15, 25, 0.6)"
+                panel: "rgba(15, 15, 25, 0.45)"
             }
         };
 
@@ -708,16 +743,53 @@
         const bars = visualizer.querySelectorAll('.bar');
 
         bgMusic.volume = CONFIG.musicVolume;
-        bgMusic.play().catch(() => {});
-        visualizer.classList.add('active');
 
-        // Visualizer animation (always running since music is always playing)
-        setInterval(() => {
+        // Visualizer animation (runs regardless, but only visible when `active` is added)
+        function animateBars() {
             bars.forEach(bar => {
                 const height = Math.random() * 24 + 4;
                 bar.style.height = height + 'px';
             });
-        }, 100);
+        }
+        const barsInterval = setInterval(animateBars, 100);
+
+        function enableVisualizer() {
+            visualizer.classList.add('active');
+        }
+
+        // Create a user-play button if autoplay is blocked
+        const musicBtn = document.createElement('button');
+        musicBtn.id = 'musicBtn';
+        musicBtn.textContent = 'Play Music';
+        musicBtn.title = 'Click to enable audio';
+        document.body.appendChild(musicBtn);
+
+        function showMusicButton() { musicBtn.classList.add('show'); }
+        function hideMusicButton() { musicBtn.classList.remove('show'); }
+
+        musicBtn.addEventListener('click', () => {
+            bgMusic.play().then(() => {
+                bgMusic.muted = false;
+                bgMusic.volume = CONFIG.musicVolume;
+                enableVisualizer();
+                hideMusicButton();
+            }).catch(() => {
+                // still blocked
+            });
+        });
+
+        // Try to play immediately; if blocked, show the play button
+        const playAttempt = bgMusic.play();
+        if (playAttempt && typeof playAttempt.then === 'function') {
+            playAttempt.then(() => {
+                enableVisualizer();
+            }).catch(() => {
+                showMusicButton();
+            });
+        } else {
+            // Older browsers or synchronous play failure
+            showMusicButton();
+        }
 
 
 
