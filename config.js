@@ -1,6 +1,6 @@
 const CONFIG = {
     name: "Xylos",              // Your name
-    tagline: "Developer • Creator • Gamer",
+    tagline: "Developer • AI enthusiast •  Machiavellianism",
     pfp: "assets/pfp.jpg",     // Your profile pic
     aboutMe: `Hey, I'm Xylos...`, // Your bio
     bgVideo: "assets/bg.mp4",  // Background video
@@ -13,9 +13,9 @@ const CONFIG = {
         // ... etc
     },
     discord: "xylos000",
-    roblox: "Xylos000",
+    roblox: "thepowerhand666",
     socials: {
-        github: "xylos000",
+        github: "",
         youtube: "",  // Leave empty to hide
         twitter: "",
         twitch: "",
