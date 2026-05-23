@@ -1,23 +1,27 @@
 const CONFIG = {
-    name: "Xylos",              // Your name
-    tagline: "Developer • AI enthusiast •  Machiavellianism",
-    pfp: "assets/pfp.jpg",     // Your profile pic
-    aboutMe: `Hey, I'm Xylos...`, // Your bio
-    bgVideo: "assets/bg.mp4",  // Background video
-    bgMusic: "assets/music.mp3", // Background music
-    colors: {
-        primary: "#a855f7",    // Main purple
-        primaryGlow: "#c084fc",
-        secondary: "#7c3aed",
-        accent: "#e879f9",
-        // ... etc
-    },
+    name: "XYLOS",
+    tagline: "developer // creator // gamer",
+    pfp: "assets/pfp.jpg",
+
+    aboutMe: "i build things for the web. i break things for fun. i game to unwind. this is my digital footprint.",
+
+    bgVideo: "assets/bg.mp4",
+    bgVideoPoster: "assets/bg-poster.jpg",
+    bgMusic: "assets/music.mp3",
+    musicVolume: 0.25,
+
     discord: "xylos000",
-    roblox: "thepowerhand666",
-    socials: {
-        github: "",
-        youtube: "",  // Leave empty to hide
-        twitter: "",
-        twitch: "",
-    },
+    roblox: "Xylos000",
+
+    colors: {
+        violet: "#8b5cf6",
+        magenta: "#d946ef", 
+        cyan: "#06b6d4",
+        rose: "#f43f5e",
+        amber: "#f59e0b",
+        text: "#e2e8f0",
+        muted: "#94a3b8",
+        dark: "#0a0a0f",
+        panel: "rgba(15, 15, 25, 0.6)",
+    }
 };
