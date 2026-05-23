@@ -8,7 +8,7 @@ const CONFIG = {
     bgVideo: "assets/bg.mp4",
     bgVideoPoster: "assets/bg-poster.jpg",
     bgMusic: "assets/music.mp3",
-    musicVolume: 0.25,
+    musicVolume: 1,
 
     discord: "xylos000",
     roblox: "thepowerhand666",
