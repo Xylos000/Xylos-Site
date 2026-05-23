@@ -1,9 +1,9 @@
 const CONFIG = {
     name: "XYLOS",
-    tagline: "developer // creator // gamer",
+    tagline: "developer // debugger // Chill!",
     pfp: "assets/pfp.jpg",
 
-    aboutMe: "i build things for the web. i break things for fun. i game to unwind. this is my digital footprint.",
+    aboutMe: "I develop things, I reverse develop things, I learn how anything works - Just for fun. Also love roblox and minecraft lmao. Lets chill fr",
 
     bgVideo: "assets/bg.mp4",
     bgVideoPoster: "assets/bg-poster.jpg",
@@ -11,7 +11,7 @@ const CONFIG = {
     musicVolume: 0.25,
 
     discord: "xylos000",
-    roblox: "Xylos000",
+    roblox: "thepowerhand666",
 
     colors: {
         violet: "#8b5cf6",
