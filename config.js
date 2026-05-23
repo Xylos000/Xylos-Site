@@ -1,24 +1,23 @@
-// config.js — EDIT THESE VALUES, NEVER TOUCH OTHER FILES
 const CONFIG = {
-    name: "Xylos",
-    discord: "xylos000",
-    pfp: "assets/pfp.jpg",
-    bgVideo: "assets/bg.mp4",
-    bgMusic: "assets/music.mp3",
+    name: "Xylos",              // Your name
+    tagline: "Developer • Creator • Gamer",
+    pfp: "assets/pfp.jpg",     // Your profile pic
+    aboutMe: `Hey, I'm Xylos...`, // Your bio
+    bgVideo: "assets/bg.mp4",  // Background video
+    bgMusic: "assets/music.mp3", // Background music
     colors: {
-        primary: "#ff0055",    // main accent
-        secondary: "#00ffcc", // secondary glow
-        text: "#ffffff",
-        cardBg: "rgba(0,0,0,0.6)"
+        primary: "#a855f7",    // Main purple
+        primaryGlow: "#c084fc",
+        secondary: "#7c3aed",
+        accent: "#e879f9",
+        // ... etc
     },
+    discord: "xylos000",
+    roblox: "Xylos000",
     socials: {
-        discord: "xylos000",
         github: "xylos000",
-        youtube: "yourchannel"
+        youtube: "",  // Leave empty to hide
+        twitter: "",
+        twitch: "",
     },
-    effects: {
-        particles: true,
-        scanlines: true,
-        glitchText: true
-    }
 };
