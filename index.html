@@ -5,271 +5,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xylos</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- ═══════════════════════════════════════
-         LOADING SCREEN
-    ═══════════════════════════════════════ -->
-    <div id="loader">
-        <div class="loader-content">
-            <div class="loader-logo">XYLOS</div>
-            <div class="loader-glitch" id="loaderText">INITIALIZING...</div>
-            <div class="loader-bar-container">
-                <div class="loader-bar" id="loaderBar"></div>
-            </div>
-            <div class="loader-percent" id="loaderPercent">0%</div>
-            <div class="loader-status" id="loaderStatus">Loading assets...</div>
+    <!-- BOOT SEQUENCE OVERLAY -->
+    <div id="boot">
+        <div class="boot-term">
+            <div class="boot-line">root@xylos:~$ <span class="boot-cmd">init --sequence=full</span></div>
+            <div class="boot-output" id="bootOutput"></div>
+            <div class="boot-cursor">_</div>
         </div>
-        <div class="loader-particles" id="loaderParticles"></div>
+        <div class="boot-progress">
+            <div class="boot-bar" id="bootBar"></div>
+            <span class="boot-pct" id="bootPct">0%</span>
+        </div>
     </div>
 
-    <!-- ═══════════════════════════════════════
-         BACKGROUND VIDEO
-    ═══════════════════════════════════════ -->
-    <div class="bg-video-container">
+    <!-- AUDIO -->
+    <audio id="bgMusic" loop></audio>
+    <button class="audio-btn" id="audioBtn" title="Toggle Music">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        <div class="audio-waves" id="audioWaves">
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+    </button>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrap" id="mainWrap">
+
+        <!-- LEFT: PROFILE -->
+        <div class="col col-left">
+            <div class="pfp-wrap">
+                <div class="pfp-ring-outer"></div>
+                <div class="pfp-ring-inner"></div>
+                <img src="" alt="pfp" class="pfp" id="pfp">
+                <div class="pfp-status" id="pfpStatus"></div>
+                <div class="pfp-glitch" id="pfpGlitch"></div>
+            </div>
+
+            <h1 class="name" id="name">
+                <span class="name-main">XYLOS</span>
+                <span class="name-shadow">XYLOS</span>
+                <span class="name-tag">XYLOS</span>
+            </h1>
+            <p class="tagline" id="tagline">developer // creator // gamer</p>
+
+            <div class="socials-row">
+                <a href="#" class="social-btn discord" id="discordBtn" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                    <span class="social-label">DISCORD</span>
+                    <span class="social-val" id="discordVal">xylos000</span>
+                </a>
+
+                <a href="#" class="social-btn roblox" id="robloxBtn" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.8 0L0 19.2L19.2 24L24 4.8L4.8 0ZM15.9 15.3L8.7 13.5L10.5 6.3L17.7 8.1L15.9 15.3Z"/></svg>
+                    <span class="social-label">ROBLOX</span>
+                    <span class="social-val" id="robloxVal">Xylos000</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- CENTER: ABOUT -->
+        <div class="col col-center">
+            <div class="term-box">
+                <div class="term-header">
+                    <span class="term-dot red"></span>
+                    <span class="term-dot yellow"></span>
+                    <span class="term-dot green"></span>
+                    <span class="term-title">about.txt</span>
+                </div>
+                <div class="term-body">
+                    <div class="term-line">
+                        <span class="term-prompt">$</span>
+                        <span class="term-type" id="termType"></span>
+                        <span class="term-caret" id="termCaret">|</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-num" id="stat1">0</span>
+                    <span class="stat-label">PROJECTS</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num" id="stat2">0</span>
+                    <span class="stat-label">HOURS GAMED</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num" id="stat3">0</span>
+                    <span class="stat-label">LINES OF CODE</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num" id="stat4">0</span>
+                    <span class="stat-label">COFFEE CUPS</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: MEDIA -->
+        <div class="col col-right">
+            <div class="media-stack">
+                <div class="media-card vid-card" id="vidCard">
+                    <div class="media-glitch"></div>
+                    <div class="media-icon">▶</div>
+                    <span class="media-text">VID_001.MP4</span>
+                    <span class="media-sub">drop video in assets/</span>
+                </div>
+                <div class="media-card aud-card" id="audCard">
+                    <div class="media-glitch"></div>
+                    <div class="media-icon">♫</div>
+                    <span class="media-text">TRACK_01.MP3</span>
+                    <span class="media-sub">drop audio in assets/</span>
+                </div>
+                <div class="media-card img-card" id="imgCard">
+                    <div class="media-glitch"></div>
+                    <div class="media-icon">◈</div>
+                    <span class="media-text">IMG_001.JPG</span>
+                    <span class="media-sub">drop image in assets/</span>
+                </div>
+            </div>
+
+            <div class="clock-box">
+                <div class="clock-digits" id="clock">00:00:00</div>
+                <div class="clock-label">LOCAL TIME</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BACKGROUND LAYERS -->
+    <div class="bg-layer">
         <video id="bgVideo" autoplay muted loop playsinline poster="">
             <source src="" type="video/mp4">
         </video>
-        <div class="bg-overlay"></div>
-        <div class="scanlines" id="scanlines"></div>
+        <div class="bg-vignette"></div>
+        <div class="bg-noise"></div>
+        <div class="bg-grid"></div>
     </div>
 
-    <!-- ═══════════════════════════════════════
-         AUDIO
-    ═══════════════════════════════════════ -->
-    <audio id="bgMusic" loop></audio>
-    <div class="music-toggle" id="musicToggle">
-        <span class="music-icon" id="musicIcon">🔇</span>
-        <div class="music-visualizer" id="musicVisualizer">
-            <span></span><span></span><span></span><span></span>
-        </div>
-    </div>
+    <!-- FLOATING PARTICLES -->
+    <canvas id="particleCanvas"></canvas>
 
-    <!-- ═══════════════════════════════════════
-         NAVIGATION
-    ═══════════════════════════════════════ -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-brand">
-            <span class="nav-brand-text">XYLOS</span>
-            <span class="nav-brand-dot"></span>
-        </div>
-        <div class="nav-links">
-            <a href="#home" class="nav-link active">Home</a>
-            <a href="#about" class="nav-link">About</a>
-            <a href="#socials" class="nav-link">Socials</a>
-            <a href="#media" class="nav-link">Media</a>
-        </div>
-        <div class="nav-hamburger" id="navHamburger">
-            <span></span><span></span><span></span>
-        </div>
-    </nav>
+    <!-- CORNER DECORATIONS -->
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
 
-    <!-- ═══════════════════════════════════════
-         PARTICLES CANVAS
-    ═══════════════════════════════════════ -->
-    <canvas id="particlesCanvas"></canvas>
-
-    <!-- ═══════════════════════════════════════
-         FLOATING ORBS
-    ═══════════════════════════════════════ -->
-    <div class="floating-orbs" id="floatingOrbs"></div>
-
-    <!-- ═══════════════════════════════════════
-         MAIN CONTENT
-    ═══════════════════════════════════════ -->
-    <main class="main-content">
-
-        <!-- ─── HERO SECTION ─── -->
-        <section class="hero" id="home">
-            <div class="hero-content">
-                <div class="pfp-container">
-                    <div class="pfp-glow"></div>
-                    <div class="pfp-ring"></div>
-                    <img src="" alt="Profile" class="pfp" id="pfp">
-                    <div class="pfp-status online" id="pfpStatus"></div>
-                </div>
-
-                <h1 class="hero-name" id="heroName">
-                    <span class="glitch" data-text="XYLOS">XYLOS</span>
-                </h1>
-                <p class="hero-tagline" id="heroTagline">Developer • Creator • Gamer</p>
-
-                <div class="hero-buttons">
-                    <a href="#about" class="btn btn-primary">
-                        <span>About Me</span>
-                        <div class="btn-glow"></div>
-                    </a>
-                    <a href="#socials" class="btn btn-secondary">
-                        <span>Connect</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="scroll-indicator">
-                <div class="mouse">
-                    <div class="wheel"></div>
-                </div>
-                <span>Scroll</span>
-            </div>
-        </section>
-
-        <!-- ─── ABOUT SECTION ─── -->
-        <section class="about" id="about">
-            <div class="section-header">
-                <span class="section-tag">01 // ABOUT</span>
-                <h2 class="section-title">Who Am I?</h2>
-            </div>
-
-            <div class="about-card" id="aboutCard">
-                <div class="about-glow"></div>
-                <div class="about-content">
-                    <div class="about-text" id="aboutText"></div>
-                    <div class="about-cursor" id="aboutCursor">|</div>
-                </div>
-                <div class="about-decoration">
-                    <div class="deco-line"></div>
-                    <div class="deco-dots">
-                        <span></span><span></span><span></span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ─── SOCIALS SECTION ─── -->
-        <section class="socials" id="socials">
-            <div class="section-header">
-                <span class="section-tag">02 // CONNECT</span>
-                <h2 class="section-title">Find Me</h2>
-            </div>
-
-            <div class="socials-grid">
-                <!-- Discord -->
-                <a href="#" class="social-card discord" id="discordCard" target="_blank">
-                    <div class="social-glow"></div>
-                    <div class="social-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-                    </div>
-                    <div class="social-info">
-                        <h3>Discord</h3>
-                        <p id="discordName">xylos000</p>
-                    </div>
-                    <div class="social-arrow">→</div>
-                </a>
-
-                <!-- Roblox -->
-                <a href="#" class="social-card roblox" id="robloxCard" target="_blank">
-                    <div class="social-glow"></div>
-                    <div class="social-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.8 0L0 19.2L19.2 24L24 4.8L4.8 0ZM15.9 15.3L8.7 13.5L10.5 6.3L17.7 8.1L15.9 15.3Z"/></svg>
-                    </div>
-                    <div class="social-info">
-                        <h3>Roblox</h3>
-                        <p id="robloxName">Xylos000</p>
-                    </div>
-                    <div class="social-arrow">→</div>
-                </a>
-
-                <!-- GitHub -->
-                <a href="#" class="social-card github" id="githubCard" target="_blank">
-                    <div class="social-glow"></div>
-                    <div class="social-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    </div>
-                    <div class="social-info">
-                        <h3>GitHub</h3>
-                        <p id="githubName">xylos000</p>
-                    </div>
-                    <div class="social-arrow">→</div>
-                </a>
-
-                <!-- YouTube (hidden by default, shows if configured) -->
-                <a href="#" class="social-card youtube hidden" id="youtubeCard" target="_blank">
-                    <div class="social-glow"></div>
-                    <div class="social-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                    </div>
-                    <div class="social-info">
-                        <h3>YouTube</h3>
-                        <p id="youtubeName">Channel</p>
-                    </div>
-                    <div class="social-arrow">→</div>
-                </a>
-
-                <!-- Twitter/X (hidden by default) -->
-                <a href="#" class="social-card twitter hidden" id="twitterCard" target="_blank">
-                    <div class="social-glow"></div>
-                    <div class="social-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                    </div>
-                    <div class="social-info">
-                        <h3>Twitter / X</h3>
-                        <p id="twitterName">@handle</p>
-                    </div>
-                    <div class="social-arrow">→</div>
-                </a>
-
-                <!-- Twitch (hidden by default) -->
-                <a href="#" class="social-card twitch hidden" id="twitchCard" target="_blank">
-                    <div class="social-glow"></div>
-                    <div class="social-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
-                    </div>
-                    <div class="social-info">
-                        <h3>Twitch</h3>
-                        <p id="twitchName">username</p>
-                    </div>
-                    <div class="social-arrow">→</div>
-                </a>
-            </div>
-        </section>
-
-        <!-- ─── MEDIA SECTION ─── -->
-        <section class="media" id="media">
-            <div class="section-header">
-                <span class="section-tag">03 // MEDIA</span>
-                <h2 class="section-title">Media & More</h2>
-            </div>
-
-            <div class="media-grid">
-                <div class="media-card" id="mediaCard1">
-                    <div class="media-glow"></div>
-                    <div class="media-placeholder">
-                        <div class="media-icon">🎬</div>
-                        <h3>Coming Soon</h3>
-                        <p>Add your videos here</p>
-                    </div>
-                </div>
-                <div class="media-card" id="mediaCard2">
-                    <div class="media-glow"></div>
-                    <div class="media-placeholder">
-                        <div class="media-icon">🎵</div>
-                        <h3>Coming Soon</h3>
-                        <p>Add your music here</p>
-                    </div>
-                </div>
-                <div class="media-card" id="mediaCard3">
-                    <div class="media-glow"></div>
-                    <div class="media-placeholder">
-                        <div class="media-icon">📸</div>
-                        <h3>Coming Soon</h3>
-                        <p>Add your photos here</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ─── FOOTER ─── -->
-        <footer class="footer">
-            <div class="footer-glow"></div>
-            <p>Made with 💜 by <span id="footerName">Xylos</span></p>
-            <p class="footer-year">2026</p>
-        </footer>
-    </main>
-
-    <!-- ═══════════════════════════════════════
-         SCRIPTS
-    ═══════════════════════════════════════ -->
     <script src="config.js"></script>
     <script src="script.js"></script>
 </body>
